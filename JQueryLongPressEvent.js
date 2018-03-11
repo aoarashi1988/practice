@@ -12,9 +12,9 @@ $.fn.longPress = function( selector, callback ) {
     if ( typeof selector === 'function' ) {
 
         var longPress = null;
+        callback = selector;
 
         $(this).on('touchstart', function(evt){
-            evt.stopPropagation();
             var $this = $(this);
             longPress = setTimeout(function(){
                 $this.trigger('longPress', evt);
@@ -28,13 +28,12 @@ $.fn.longPress = function( selector, callback ) {
             clearTimeout(longPress);
         })
 
-        $(this).on( 'longPress', selector );    
+        $(this).on( 'longPress', callback );    
     } else if ( typeof selector === 'string' ) {
 
         var longPress = null;
 
         $(this).on('touchstart', selector, function(evt){
-            evt.stopPropagation();
             var $this = $(this);
             longPress = setTimeout(function(){
                 $this.trigger('longPress', evt);
