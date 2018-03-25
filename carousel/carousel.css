@@ -1,0 +1,49 @@
+.g-carousel{
+  position: relative;
+  overflow: hidden;
+  width:100vw;
+  height:60vw;
+}
+.g-carousel, .g-carousel *{
+  box-sizing: border-box;
+  list-style: none;
+}
+.g-carousel-inner{
+  position: relative;
+  /* display: flex; */
+  width:auto;
+  height:100%;
+  white-space: nowrap;
+}
+.g-carousel-inner-item{
+  display: inline-block;
+  width:100vw;
+  height:100%;
+  border-width: 0 1px ;
+  border-style: solid;
+  border-color: #eee;
+}
+.g-carousel-inner-media {
+  display: block;
+  margin:0 auto;
+  width: 100%;
+}
+.g-carousel-btnGroup{
+  position: absolute;
+  bottom:.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  left:50%;
+  transform: translateX(-50%);
+}
+.g-carousel-btn{
+  margin: 0 .2rem;
+  width:.2rem;
+  height:.2rem;
+  border-radius: 50%;
+  background-color: #eee;
+}
+.g-carousel-btn.active{
+  background-color: #FFD705;
+}
