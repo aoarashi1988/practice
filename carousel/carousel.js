@@ -1,3 +1,49 @@
+//用到的其他函数
+/*
+*扩展String的方法，用法：
+*String.render(context);
+*String形如'<div class="{{titleClass}}">{{title}}</div>'，{{titleClass}}、{{title}}为活动数据
+*context为包含活动数据的对象，如{title: '标题', titleClass: 'title'}
+*'<div class="{{titleClass}}">{{title}}</div>'.render({title: '标题', titleClass: 'title'});
+*返回'<div class="title">标题</div>'
+**/
+String.prototype.render = function (context) {
+    return this.replace(/{{(.*?)}}/g, function (match, key) { return context[key.trim()] });
+}
+
+/*处理多个图片函数
+**输入可以为','分割的长字符串，也可以是数组，图片类型为jpg和png
+**返回两个数组：imgArr 和 videoArr
+*/
+function classMedia(urls) {
+    var urlArr = [],
+        imgArr = [],
+        videoArr = [];
+
+    var imgReg = /(jpg|png)$/i;
+
+    if (urls instanceof Array) {
+        urlArr = urls;
+    } else if (urls === '') {
+
+    } else {
+        urlArr = urls.split(',');
+    }
+
+    for (var i = 0; i < urlArr.length; i++) {
+        var element = urlArr[i];
+        if (imgReg.test(element)) {
+            imgArr.push(element);
+        } else {
+            videoArr.push(element);
+        }
+    }
+    return {
+        imgArr: imgArr,
+        videoArr: videoArr
+    }
+}
+
 /* 
 **扩展JQuery的轮播图方法
 **$(selector).carousel( option )
