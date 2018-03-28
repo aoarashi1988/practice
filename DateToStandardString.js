@@ -1,5 +1,4 @@
 //输出和ISO标准一样格式的时间，然而时区调整为当前时区
-
 (function(){
   function pad(number) {
       if (number < 10) {
