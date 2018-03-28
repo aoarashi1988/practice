@@ -7,7 +7,7 @@
       }
       return number;
   }
-  Date.prototype.toStandString = function () {
+  Date.prototype.toStandardString = function () {
       return this.getFullYear() +
           '-' + pad(this.getMonth() + 1) +
           '-' + pad(this.getDate()) +
