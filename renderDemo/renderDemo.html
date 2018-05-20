@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>render Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #333;
+    }
+
+    html {
+      font-size: 13.333333333333333vw
+    }
+
+    .g-list {
+      width: 100%;
+    }
+
+    .g-list-item {
+      padding: .2rem;
+      width: calc(100% - .4rem);
+      border-bottom: 1px solid #ebebeb;
+      background-color: #fff;
+    }
+
+    .g-list-item:active {
+      background-color: #eee;
+    }
+
+    .g-thumbnail {
+      position: relative;
+    }
+
+    .g-thumbnail:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .g-thumbnail-img {
+      float: left;
+      height: .8rem;
+      width: .8rem;
+      background-color: #eee;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .g-thumbnail-right {
+      float: left;
+      margin-left: .2rem;
+      width: calc(100% - 1rem);
+    }
+
+    .g-thumnail-title,
+    .g-thumbnail-content {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .g-thumbnail-title {
+      font-size: .28rem;
+      font-weight: bold;
+    }
+
+    .g-thumbnail-content {
+      margin-top: .1rem;
+      font-size: .22rem;
+      color: #888;
+    }
+    .g-btn{
+      width:3rem;
+      height:1rem;
+      color:#fff;
+      font-size: .34rem;
+      outline: none;
+      border:none;
+      background-color: #39a4f8;
+    }
+  </style>
+</head>
+
+<body>
+  <button class="g-btn">点击渲染页面</button>
+  <ul class="g-list">
+    <!-- <li class="g-list-item">
+      <div class="g-thumbnail">
+        <div class="g-thumbnail-img" style="background-image: url()"></div>
+        <div class="g-thumbnail-right">
+          <div class="g-thumbnail-title">这里是标题</div>
+          <div class="g-thumbnail-content">这里是副标题</div>
+        </div>
+      </div>
+    </li> -->
+  </ul>
+  <script>
+    String.prototype.render = function (context) {
+        return this.replace(/{{(.*?)}}/g, function (match, key) {
+          return context[key.trim()]
+        })
+      }
+
+      String.prototype.replaceFun = function () {
+        return this.replace('function(){/*', '').replace('function (){/*', '').replace('function () {/*', '').replace('function () { /*', '').replace('*/}', '').replace('*/ }', '')
+      }
+
+    function renderList(list){
+      var fnDom = function(){/*<li class="g-list-item">
+      <div class="g-thumbnail">
+        <div class="g-thumbnail-img" style="background-image: url({{img}})"></div>
+        <div class="g-thumbnail-right">
+          <div class="g-thumbnail-title">{{title}}</div>
+          <div class="g-thumbnail-content">{{subTitle}}</div>
+        </div>
+      </div>
+    </li>*/}
+      var domModel = fnDom.toString().replaceFun()
+      
+      var dom = list.map(function(o, i){
+        return domModel.render(o)
+      }).join('')
+      return dom
+    }
+    var exampleData = [
+      {
+        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526792833472&di=cd937f26c49d7a3a0c4f9d2e34c80f2b&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fb03533fa828ba61e3516f36f4734970a314e59f1.jpg',
+        title: '标题1',
+        subTitle: '副标题1'
+      },
+      {
+        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526792833472&di=829cfa3ba781a8c6efdb90dd12d6c3b6&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F11%2F38%2F84%2F16w58PICegT.jpg',
+        title: '标题2',
+        subTitle:'副标题2'
+      },
+      {
+        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526792833467&di=e19b04f853d0c18ba4761dd72c724bb2&imgtype=0&src=http%3A%2F%2Fimg.duoziwang.com%2Fuploads%2Fc160224%2F1456320Z6230-5A39.jpg',
+        title: '标题3',
+        subTitle: '副标题3'
+      },
+      {
+        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526792833463&di=adac4b0df071b8262edfd54f23d41109&imgtype=0&src=http%3A%2F%2Fwww.qqzhi.com%2Fuploadpic%2F2015-02-02%2F191047676.jpg',
+        title: '标题4',
+        subTitle: '副标题4'
+      },
+      {
+        img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526792833493&di=117cec51509163186e10038720f8520a&imgtype=0&src=http%3A%2F%2Ftx.haiqq.com%2Fuploads%2Fallimg%2F170508%2F0954333D7-2.jpg',
+        title: '标题5',
+        subTitle: '副标题5'
+      }
+    ]
+    var ul = document.querySelector('.g-list')
+    var btn = document.querySelector('.g-btn')
+    
+    btn.addEventListener('click',function(evt){
+      ul.innerHTML = renderList(exampleData)
+    })
+
+  </script>
+</body>
+
+</html>
